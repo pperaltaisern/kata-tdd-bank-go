@@ -1,7 +1,19 @@
 package main
 
-type AccountService interface {
-	Deposit(amount int)
-	Withdraw(amount int)
-	PrintStatement()
+type Account struct{}
+
+func NewAccount() *Account {
+	return &Account{}
+}
+
+func (acc *Account) Deposit(amount int) {
+
+}
+
+func (acc *Account) Withdraw(amount int) {
+
+}
+
+func (acc *Account) PrintStatement() {
+
 }
