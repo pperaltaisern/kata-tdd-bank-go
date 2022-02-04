@@ -44,7 +44,7 @@ func (f *printStatementFeature) theyWouldSee(expectedStatement *godog.DocString)
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	sb := &strings.Builder{}
 	r := &InMemoryTransactionRepository{}
-	f := &transactionFactory{}
+	f := NewTransactionFactory()
 	sp := &statementPrinter{}
 	printStatementFeature := &printStatementFeature{
 		account: NewAccount(r, f, sp),
