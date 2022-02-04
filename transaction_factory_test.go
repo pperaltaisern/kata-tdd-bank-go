@@ -13,9 +13,9 @@ func TestTransactionFactory_CreateTransactionFromDeposit(t *testing.T) {
 		Amount: 100,
 		Date:   "13/01/2012",
 	}
-	nowFn := testNowFunc(expectedTx.Date)
+	clock := testClock(expectedTx.Date)
 
-	f := NewTransactionFactoryWithNowFunc(nowFn)
+	f := NewTransactionFactoryWithClock(clock)
 
 	// Act
 	tx := f.CreateTransactionFromDeposit(expectedTx.Amount)
@@ -25,26 +25,28 @@ func TestTransactionFactory_CreateTransactionFromDeposit(t *testing.T) {
 
 func TestTransactionFactory_CreateTransactionFromWithdrawal(t *testing.T) {
 	// Arrange
+	amount := 100
 	expectedTx := Transaction{
 		Amount: -100,
 		Date:   "13/01/2012",
 	}
-	nowFn := testNowFunc(expectedTx.Date)
+	clock := testClock(expectedTx.Date)
 
-	f := NewTransactionFactoryWithNowFunc(nowFn)
+	f := NewTransactionFactoryWithClock(clock)
 
 	// Act
-	tx := f.CreateTransactionFromWithdrawal(expectedTx.Amount)
+	tx := f.CreateTransactionFromWithdrawal(amount)
 	// Assert
 	require.Equal(t, expectedTx, tx)
 }
 
-func testNowFunc(date string) func() time.Time {
-	return func() time.Time {
-		t, err := time.Parse("01/02/2006", date)
+func testClock(date string) Clock {
+	now := func() time.Time {
+		t, err := time.Parse("02/01/2006", date)
 		if err != nil {
 			panic(err)
 		}
 		return t
 	}
+	return NewClockWithNowFunc(now)
 }

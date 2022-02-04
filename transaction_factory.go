@@ -1,32 +1,32 @@
 package main
 
-import "time"
-
 type TransactionFactory interface {
 	CreateTransactionFromDeposit(amount int) Transaction
 	CreateTransactionFromWithdrawal(amount int) Transaction
 }
 
 type transactionFactory struct {
-	now func() time.Time
+	clock Clock
 }
 
 func NewTransactionFactory() *transactionFactory {
-	return NewTransactionFactoryWithNowFunc(time.Now)
+	return NewTransactionFactoryWithClock(NewClock())
 }
 
-func NewTransactionFactoryWithNowFunc(now func() time.Time) *transactionFactory {
+func NewTransactionFactoryWithClock(clock Clock) *transactionFactory {
 	return &transactionFactory{
-		now: now,
+		clock: clock,
 	}
 }
 
 func (f *transactionFactory) CreateTransactionFromDeposit(amount int) Transaction {
-	panic("not implemented")
+	date := f.clock.NowString()
+	return NewTransaction(date, amount)
 }
 
 func (f *transactionFactory) CreateTransactionFromWithdrawal(amount int) Transaction {
-	panic("not implemented")
+	date := f.clock.NowString()
+	return NewTransaction(date, -amount)
 }
 
 type MockTransactionFactory struct {

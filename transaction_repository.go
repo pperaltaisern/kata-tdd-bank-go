@@ -1,10 +1,5 @@
 package main
 
-type Transaction struct {
-	Date   string
-	Amount int
-}
-
 type TransactionRepository interface {
 	AddTransaction(tx Transaction)
 	AllTransactions() []Transaction
