@@ -55,3 +55,25 @@ We mock them and build our test, we expect the repository to be called with a ex
                                 actual  : 0
                 Test:           TestAccount_Deposit_ShouldStoreATransaction
 ```
+
+## Make unit tests pass
+
+We implement the Account's Deposit method:
+
+```go
+func (acc *Account) Deposit(amount int) {
+	tx := acc.transactionFactory.CreateTransactionFromDeposit(amount)
+	acc.transactionRepository.AddTransaction(tx)
+}
+```
+
+Now, the test is passing:
+
+``` gherkin
+go test ./... -v
+=== RUN   TestAccount_Deposit_ShouldStoreATransaction
+--- PASS: TestAccount_Deposit_ShouldStoreATransaction (0.00s)
+```
+
+
+The result is a clean Account struct that has only high level logic. Each of his responsabilities are delegated to smaller objects.

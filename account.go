@@ -8,11 +8,13 @@ type Account struct {
 func NewAccount(r TransactionRepository, f TransactionFactory) *Account {
 	return &Account{
 		transactionRepository: r,
+		transactionFactory:    f,
 	}
 }
 
 func (acc *Account) Deposit(amount int) {
-
+	tx := acc.transactionFactory.CreateTransactionFromDeposit(amount)
+	acc.transactionRepository.AddTransaction(tx)
 }
 
 func (acc *Account) Withdraw(amount int) {
