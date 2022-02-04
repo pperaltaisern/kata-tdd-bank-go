@@ -9,7 +9,7 @@ import (
 
 type printStatementFeature struct {
 	account *Account
-	// buffer is injected to AccountService as a writer
+	// buffer is injected to Account as a writer
 	buffer *strings.Builder
 }
 
@@ -43,8 +43,10 @@ func (f *printStatementFeature) theyWouldSee(expectedStatement *godog.DocString)
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	sb := &strings.Builder{}
+	r := &InMemoryTransactionRepository{}
+	f := &transactionFactory{}
 	printStatementFeature := &printStatementFeature{
-		account: NewAccount(),
+		account: NewAccount(r, f),
 		buffer:  sb,
 	}
 

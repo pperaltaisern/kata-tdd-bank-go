@@ -3,6 +3,7 @@ https://katalyst.codurance.com/bank
 
 
 ## Creating a failing acceptance test 
+We write the acceptance criteria for our "print statement" feature, which is used to generate the code for our acceptance test. Then we create the Account struct with empty methods so we can write the test. When running the test, we see that it is failing:
 
 ``` gherkin
 $ godog
@@ -31,4 +32,26 @@ expected:
                 14/01/2012 || -500   || 2500
                 13/01/2012 || 2000   || 3000
                 10/01/2012 || 1000   || 1000
+```
+
+
+## Failing Unit tests for Account
+The acceptance test will guide us, now we have empty methods for Account so the next step is to create unit tests for it. Starting unit testing the "Deposit" method, we see that there are this method has to do two different things:
+1. Store transactions (date, amount)
+2. Create transactions from an amount
+
+Therefore, we create two different objects, one per responsability.
+1. For storing transactions, we create a TransactionsRepository
+2. For creating transactions, we create a TransactionsFactory
+
+We mock them and build our test, we expect the repository to be called with a expected transaction. When running it, it fails since it's not already implemented:
+
+``` gherkin
+--- FAIL: TestAccount_Deposit_ShouldStoreATransaction (0.00s)
+    account_test.go:40:
+                Error Trace:    account_test.go:40
+                Error:          Not equal:
+                                expected: 1
+                                actual  : 0
+                Test:           TestAccount_Deposit_ShouldStoreATransaction
 ```
