@@ -6,14 +6,15 @@ type TransactionRepository interface {
 }
 
 type InMemoryTransactionRepository struct {
+	mem []Transaction
 }
 
 func (r *InMemoryTransactionRepository) AddTransaction(tx Transaction) {
-	panic("not implemented")
+	r.mem = append(r.mem, tx)
 }
 
 func (r *InMemoryTransactionRepository) AllTransactions() []Transaction {
-	panic("not implemented")
+	return r.mem
 }
 
 type MockTransationRepository struct {
