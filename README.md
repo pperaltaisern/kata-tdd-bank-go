@@ -113,3 +113,53 @@ github.com/pperaltaisern/kata-tdd-bank-go.(*transactionFactory).CreateTransactio
 
 The next step is to do the same that we did for the Account, create failing unit test for the factory, then implement the methods. Repeat this process until the acceptance test passes.
 
+## Acceptance test passed
+
+``` gherkin
+godog
+Feature: print statement
+  In order to see an account state
+  As a client
+  I need to be able to see my transactions
+
+  Scenario: Should get deposit and withdrawal transactions # features\print_statement.feature:6
+    Given a client makes a deposit of 1000 on "10-01-2012" # account_acceptance_test.go:17 -> *printStatementFeature
+    And a deposit of 2000 on "13-01-2012"                  # account_acceptance_test.go:22 -> *printStatementFeature
+    And a withdrawal of 500 on "14-01-2012"                # account_acceptance_test.go:27 -> *printStatementFeature
+    When they print their bank statement                   # account_acceptance_test.go:32 -> *printStatementFeature
+    Then they would see:                                   # account_acceptance_test.go:37 -> *printStatementFeature
+      """
+      Date || Amount || Balance
+      14/01/2012 || -500 || 2500
+      13/01/2012 || 2000 || 3000
+      10/01/2012 || 1000 || 1000
+      """
+
+1 scenarios (1 passed)
+5 steps (5 passed)
+```
+
+All unit tests passing with a 94.7% of coverage
+
+```
+go test ./... -v -cover
+=== RUN   TestAccount_Deposit_ShouldStoreATransaction
+--- PASS: TestAccount_Deposit_ShouldStoreATransaction (0.00s)
+=== RUN   TestAccount_Withdraw_ShouldStoreATransaction
+--- PASS: TestAccount_Withdraw_ShouldStoreATransaction (0.00s)
+=== RUN   TestAccount_PrintStatement_ShouldPrintABatchOfTransactions
+--- PASS: TestAccount_PrintStatement_ShouldPrintABatchOfTransactions (0.00s)
+=== RUN   TestClock_NowString_ShouldFormatAsExpected
+--- PASS: TestClock_NowString_ShouldFormatAsExpected (0.00s)
+=== RUN   TestStatementPrinter_PrintStatement_printsInExpectedFormat
+--- PASS: TestStatementPrinter_PrintStatement_printsInExpectedFormat (0.00s)
+=== RUN   TestTransactionFactory_CreateTransactionFromDeposit
+--- PASS: TestTransactionFactory_CreateTransactionFromDeposit (0.00s)
+=== RUN   TestTransactionFactory_CreateTransactionFromWithdrawal
+--- PASS: TestTransactionFactory_CreateTransactionFromWithdrawal (0.00s)
+=== RUN   TestTransactionFactory_StoreAndRetrieveTransaction
+--- PASS: TestTransactionFactory_StoreAndRetrieveTransaction (0.00s)
+PASS
+coverage: 94.7% of statements
+ok      github.com/pperaltaisern/kata-tdd-bank-go       1.408s  coverage: 94.7% of statements
+```
