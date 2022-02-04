@@ -56,7 +56,7 @@ We mock them and build our test, we expect the repository to be called with a ex
                 Test:           TestAccount_Deposit_ShouldStoreATransaction
 ```
 
-## Make unit tests pass
+## Make unit tests for Account pass
 
 We implement the Account's Deposit method:
 
@@ -77,3 +77,39 @@ go test ./... -v
 
 
 The result is a clean Account struct that has only high level logic. Each of his responsabilities are delegated to smaller objects.
+
+We do the same for the rest of the Account's methods, the Withdraw is similar to the Deposit. The PrintStatement gives the Action class a third responsability, that is printing an array of transactions, and we are creating another interface for it.
+
+At the end, all unit tests for Account pass, so we are done with it.
+```
+go test ./... -v
+=== RUN   TestAccount_Deposit_ShouldStoreATransaction
+--- PASS: TestAccount_Deposit_ShouldStoreATransaction (0.00s)
+=== RUN   TestAccount_Withdraw_ShouldStoreATransaction
+--- PASS: TestAccount_Withdraw_ShouldStoreATransaction (0.00s)
+=== RUN   TestAccount_PrintStatement_ShouldPrintABatchOfTransactions
+--- PASS: TestAccount_PrintStatement_ShouldPrintABatchOfTransactions (0.00s)
+```
+
+## Let the acceptance test guide us
+
+After having a valid Account implementation, the acceptance test is panicking because there are still classes that have not been implemented. In this case, it's the transactionFactory
+
+``` gherkin
+godog
+Feature: print statement
+  In order to see an account state
+  As a client
+  I need to be able to see my transactions
+
+  Scenario: Should get deposit and withdrawal transactions # features\print_statement.feature:6
+    Given a client makes a deposit of 1000 on "10-01-2012" # account_acceptance_test.go:16 -> *printStatementFeature
+    not implemented
+runtime.gopanic
+        c:/go/src/runtime/panic.go:1038
+github.com/pperaltaisern/kata-tdd-bank-go.(*transactionFactory).CreateTransactionFromDeposit
+        C:/Users/PepPeralta/kata-tdd-bank-go/transaction_factory.go:12
+```
+
+The next step is to do the same that we did for the Account, create failing unit test for the factory, then implement the methods. Repeat this process until the acceptance test passes.
+

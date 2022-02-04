@@ -9,11 +9,11 @@ type transactionFactory struct {
 }
 
 func (f *transactionFactory) CreateTransactionFromDeposit(amount int) Transaction {
-	return Transaction{}
+	panic("not implemented")
 }
 
 func (f *transactionFactory) CreateTransactionFromWithdrawal(amount int) Transaction {
-	return Transaction{}
+	panic("not implemented")
 }
 
 type MockTransactionFactory struct {

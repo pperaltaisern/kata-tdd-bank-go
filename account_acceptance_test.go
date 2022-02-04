@@ -45,8 +45,9 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	sb := &strings.Builder{}
 	r := &InMemoryTransactionRepository{}
 	f := &transactionFactory{}
+	sp := &statementPrinter{}
 	printStatementFeature := &printStatementFeature{
-		account: NewAccount(r, f),
+		account: NewAccount(r, f, sp),
 		buffer:  sb,
 	}
 
