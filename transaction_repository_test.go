@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestTransactionFactory_StoreAndRetrieveTransaction(t *testing.T) {
+func TestTransactionRepository_StoreAndRetrieveTransaction(t *testing.T) {
 	// Arrange
 	expectedTxs := []Transaction{
 		NewTransaction("13/01/2012", 100),

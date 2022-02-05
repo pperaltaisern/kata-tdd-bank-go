@@ -78,7 +78,7 @@ go test ./... -v
 
 The result is a clean Account struct that has only high level logic. Each of his responsabilities are delegated to smaller objects.
 
-We do the same for the rest of the Account's methods, the Withdraw is similar to the Deposit. The PrintStatement gives the Action class a third responsability, that is printing an array of transactions, and we are creating another interface for it.
+We do the same for the rest of the Account's methods, the Withdraw is similar to the Deposit. The PrintStatement gives the Account class a third responsability, that is printing an array of transactions, and we are creating another interface for it.
 
 At the end, all unit tests for Account pass, so we are done with it.
 ```
@@ -147,18 +147,18 @@ go test ./... -v -cover
 --- PASS: TestAccount_Deposit_ShouldStoreATransaction (0.00s)
 === RUN   TestAccount_Withdraw_ShouldStoreATransaction
 --- PASS: TestAccount_Withdraw_ShouldStoreATransaction (0.00s)
-=== RUN   TestAccount_PrintStatement_ShouldPrintABatchOfTransactions
+=== RUN   TestAccount_PrintStatement_ShouldPrintABatchOfTransactions        
 --- PASS: TestAccount_PrintStatement_ShouldPrintABatchOfTransactions (0.00s)
 === RUN   TestClock_NowString_ShouldFormatAsExpected
 --- PASS: TestClock_NowString_ShouldFormatAsExpected (0.00s)
-=== RUN   TestStatementPrinter_PrintStatement_printsInExpectedFormat
+=== RUN   TestStatementPrinter_PrintStatement_printsInExpectedFormat        
 --- PASS: TestStatementPrinter_PrintStatement_printsInExpectedFormat (0.00s)
 === RUN   TestTransactionFactory_CreateTransactionFromDeposit
 --- PASS: TestTransactionFactory_CreateTransactionFromDeposit (0.00s)
 === RUN   TestTransactionFactory_CreateTransactionFromWithdrawal
 --- PASS: TestTransactionFactory_CreateTransactionFromWithdrawal (0.00s)
-=== RUN   TestTransactionFactory_StoreAndRetrieveTransaction
---- PASS: TestTransactionFactory_StoreAndRetrieveTransaction (0.00s)
+=== RUN   TestTransactionRepository_StoreAndRetrieveTransaction
+--- PASS: TestTransactionRepository_StoreAndRetrieveTransaction (0.00s)
 PASS
 coverage: 94.7% of statements
 ok      github.com/pperaltaisern/kata-tdd-bank-go       1.408s  coverage: 94.7% of statements
